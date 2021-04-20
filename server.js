@@ -18,6 +18,7 @@ const homeController = require("./controllers/standard/homeController");
 const catchAllController = require("./controllers/standard/catchAllController");
 const githubTestRoute = require("./controllers/axios/githubTestRoute");
 const getTodoController = require("./controllers/postgres/getTodoController");
+const getTodoByIdController = require("./controllers/postgres/getTodoByIdController");
 
 // Other middleware
 // This replaced using bodyParser which was added in express v4.16.0 and higher
@@ -38,6 +39,7 @@ app.use(homeController);
 app.use("/api/github/test", githubTestRoute);
 // Postgres database controllers
 app.use("/api/todos/all", getTodoController);
+app.use("/api/todo/", getTodoByIdController);
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
