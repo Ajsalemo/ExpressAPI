@@ -6,6 +6,9 @@ const morgan = require("morgan");
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Sequelize
+const { sequelize } = require("./models/index");
+
 // Controllers
 const homeController = require("./controllers/standard/homeController");
 const catchAllController = require("./controllers/standard/catchAllController");
@@ -31,11 +34,30 @@ app.use("/api/github/test", githubTestRoute);
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-  console.log(
-    `INFO: There is ${
-      os.cpus().length
-    } cores available to spawn node processes on`
-  );
-});
+// Sync with Sequelize/Postgres, then start Express
+sequelize
+  .sync()
+  .then(async () => {
+    try {
+      console.log("Successfully connected to Postgres");
+      app.listen(port, () => {
+        console.log(`INFO: Server is listening on port ${port}`);
+        console.log(
+          `INFO: There is ${
+            os.cpus().length
+          } cores available to spawn node processes on`
+        );
+      });
+    } catch (error) {
+      console.log(
+        "ERROR: An error has occurred while connecting to Postgres: ",
+        error
+      );
+    }
+  })
+  .catch((err) => {
+    console.log(
+      "ERROR: An error has occurred while connecting to Postgres: ",
+      err
+    );
+  });
