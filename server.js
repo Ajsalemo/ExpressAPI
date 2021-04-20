@@ -17,6 +17,7 @@ const eraseDatabaseOnSync = true;
 const homeController = require("./controllers/standard/homeController");
 const catchAllController = require("./controllers/standard/catchAllController");
 const githubTestRoute = require("./controllers/axios/githubTestRoute");
+const getTodoController = require("./controllers/postgres/getTodoController");
 
 // Other middleware
 // This replaced using bodyParser which was added in express v4.16.0 and higher
@@ -35,6 +36,8 @@ app.use(morgan("dev"));
 app.use(homeController);
 // Github API controllers
 app.use("/api/github/test", githubTestRoute);
+// Postgres database controllers
+app.use("/api/todos/all", getTodoController);
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
