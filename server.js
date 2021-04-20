@@ -8,6 +8,10 @@ const port = process.env.PORT || 3000;
 
 // Sequelize
 const { sequelize } = require("./models/index");
+// Seeding function
+const seedDatabaseAsync = require("./config/seeders");
+// Seeding boolean
+const eraseDatabaseOnSync = true;
 
 // Controllers
 const homeController = require("./controllers/standard/homeController");
@@ -36,8 +40,11 @@ app.use(catchAllController);
 
 // Sync with Sequelize/Postgres, then start Express
 sequelize
-  .sync()
+  .sync({ force: eraseDatabaseOnSync })
   .then(async () => {
+    if (eraseDatabaseOnSync) {
+      seedDatabaseAsync();
+    }
     try {
       console.log("Successfully connected to Postgres");
       app.listen(port, () => {
