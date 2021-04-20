@@ -1,6 +1,7 @@
 // Load dotenv
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
+const os = require("os");
 const morgan = require("morgan");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,4 +31,11 @@ app.use("/api/github/test", githubTestRoute);
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
-app.listen(port, () => console.log(`Server is listening on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+  console.log(
+    `INFO: There is ${
+      os.cpus().length
+    } cores available to spawn node processes on`
+  );
+});
