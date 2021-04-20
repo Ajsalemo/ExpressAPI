@@ -1,13 +1,14 @@
+// Load dotenv
+require('dotenv').config()
 const express = require("express");
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Controllers
 const homeController = require("./controllers/standard/homeController");
 const catchAllController = require("./controllers/standard/catchAllController");
-const axiosGetAllGithub = require("./controllers/axios/axiosGetAllGithub");
+const githubTestRoute = require("./controllers/axios/githubTestRoute");
 
 // Other middleware
 // This replaced using bodyParser which was added in express v4.16.0 and higher
@@ -24,10 +25,8 @@ app.use(morgan("dev"));
 // Controllers to use with routing
 // Standard controllers
 app.use(homeController);
-
 // Github API controllers
-app.use("/api/github/getall", axiosGetAllGithub);
-
+app.use("/api/github/test", githubTestRoute);
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
