@@ -4,23 +4,23 @@ const models = require("../../models");
 
 const { Todo } = models;
 
-const getTodoByIdController = router.get("/:id", async (req, res, next) => {
+const deleteTodoController = router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const getTodoById = await Todo.findOne({
+    const deleteTodo = await Todo.destroy({
       where: {
         id: id,
       },
     });
 
-    if (!getTodoById) {
+    if (!deleteTodo) {
       return res.status(404).send({ message: `Todo not found with id ${id}` });
     }
-    return res.json(getTodoById);
+    return res.status(200).json({ message: `Deleted todo with id ${id}` });
   } catch (error) {
     console.log("An error occurred during query execution: ", error);
     next(error);
   }
 });
 
-module.exports = getTodoByIdController;
+module.exports = deleteTodoController;
