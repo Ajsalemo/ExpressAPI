@@ -2,15 +2,13 @@
 // https://github.com/sequelize/cli
 const models = require("../models");
 
-const d = Date().toString();
 const { Todo } = models;
 
 const seedDatabaseAsync = async () => {
   try {
     const createTodoSeed = await Todo.create({
-      name: "Test",
+      name: "Mow the grass",
       completed: true,
-      dateTime: d,
     });
 
     return createTodoSeed;
