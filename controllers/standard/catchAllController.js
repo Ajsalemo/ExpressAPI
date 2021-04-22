@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 // Catches all non matching routes and redirects it back to the root
-const catchAllController = router.get("*", (_, res) => {
+const catchAllController = router.get("*", (_, res, next) => {
   try {
     res.redirect("/");
   } catch (error) {
-    res.json(error);
+    console.log("An error has occurred: ", error)
+    next(error)
   }
 });
 

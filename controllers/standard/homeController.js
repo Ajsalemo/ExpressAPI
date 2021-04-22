@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const homeController = router.get("/", (_, res) => {
+const homeController = router.get("/", (_, res, error) => {
   try {
     res.send("ExpressAPI");
   } catch (error) {
-    res.json(error);
+    console.log("An error has occurred: ", error);
+    next(error);
   }
 });
 
