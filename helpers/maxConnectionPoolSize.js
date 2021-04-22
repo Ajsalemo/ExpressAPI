@@ -8,9 +8,9 @@ const maxConnectionPoolSize = (max) => {
       return 100;
     }
     // Since conn may be a float - explicitly parse it into an integer
-    // Then round down to the nearest whole number and return this as the connection pool size
+    // Then round up to the nearest whole number and return this as the connection pool size
     const conn = max / os.cpus().length;
-    return Math.floor(parseInt(conn));
+    return Math.ceil(parseInt(conn));
   } catch (error) {
     console.log(
       "An error has occurred while sizing the connection pool: ",
