@@ -4,9 +4,28 @@ module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {}
   Todo.init(
     {
-      name: DataTypes.STRING,
-      completed: DataTypes.BOOLEAN,
-      dateTime: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      dateTime: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
     },
     {
       sequelize,
