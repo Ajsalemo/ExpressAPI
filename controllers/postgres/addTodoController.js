@@ -5,7 +5,19 @@ const models = require("../../models");
 const { Todo } = models;
 
 const addTodoController = router.post("/", async (req, res, next) => {
+  console.log(typeof req.body.completed === "boolean");
+  console.log(req.body.completed)
   try {
+    if (
+      !req.body ||
+      !req.body.name ||
+      req.body.name === "" ||
+      !req.body.completed 
+      // Check if the incoming parameter is of type boolean
+      // typeof req.body.completed === "boolean"
+    ) {
+      return res.status(500).json({ error: "Invalid parameter" });
+    }
     const createTodo = await Todo.create({
       name: req.body.name,
       completed: req.body.completed,
