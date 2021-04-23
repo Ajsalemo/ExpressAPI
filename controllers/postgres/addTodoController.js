@@ -1,18 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../../models");
+const validator = require("../../helpers/validator");
 
 const { Todo } = models;
 
 const addTodoController = router.post("/", async (req, res, next) => {
   try {
-    if (
-      !req.body ||
-      !req.body.name ||
-      req.body.name === "" ||
-      // Check if the incoming parameter is of type boolean
-      typeof req.body.completed !== "boolean"
-    ) {
+    // Validator is a function that does field level validation
+    if (validator(req)) {
       return res.status(500).json({ error: "Invalid parameter" });
     }
     const createTodo = await Todo.create({

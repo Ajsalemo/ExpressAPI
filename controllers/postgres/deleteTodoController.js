@@ -4,15 +4,15 @@ const models = require("../../models");
 
 const { Todo } = models;
 
-const deleteTodoController = router.get("/:id", async (req, res, next) => {
+const deleteTodoController = router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const deleteTodo = await Todo.destroy({
       where: {
-        id: id,
+        id: parseInt(id),
       },
     });
-
+    // Throw a HTTP 404 if the todo isn't found
     if (!deleteTodo) {
       return res.status(404).send({ message: `Todo not found with id ${id}` });
     }

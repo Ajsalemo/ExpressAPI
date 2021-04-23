@@ -9,10 +9,10 @@ const getTodoByIdController = router.get("/:id", async (req, res, next) => {
   try {
     const getTodoById = await Todo.findOne({
       where: {
-        id: id,
+        id: parseInt(id),
       },
     });
-
+    // Throw a HTTP 404 if the todo isn't found
     if (!getTodoById) {
       return res.status(404).send({ message: `Todo not found with id ${id}` });
     }

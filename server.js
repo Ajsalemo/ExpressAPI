@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 // Sequelize
 const { sequelize } = require("./models/index");
 // Seeding function
-const seedDatabaseAsync = require("./config/seeders");
+const seedDatabaseAsync = require("./config/seeders.js");
 // Seeding boolean
 const eraseDatabaseOnSync = true;
 
@@ -21,6 +21,7 @@ const getTodoController = require("./controllers/postgres/getTodoController");
 const getTodoByIdController = require("./controllers/postgres/getTodoByIdController");
 const deleteTodoController = require("./controllers/postgres/deleteTodoController");
 const addTodoController = require("./controllers/postgres/addTodoController");
+const updateTodoController = require("./controllers/postgres/updateTodoController");
 
 // Other middleware
 // This replaced using bodyParser which was added in express v4.16.0 and higher
@@ -44,6 +45,7 @@ app.use("/api/todo/all", getTodoController);
 app.use("/api/todo/find/", getTodoByIdController);
 app.use("/api/todo/delete/", deleteTodoController);
 app.use("/api/todo/add", addTodoController);
+app.use("/api/todo/update", updateTodoController);
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
