@@ -11,7 +11,7 @@ const { sequelize } = require("./models/index");
 // Seeding function
 const seedDatabaseAsync = require("./config/seeders.js");
 // Seeding boolean
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = process.env.NODE_ENV === "development" ? true : false;
 
 // Controllers
 const homeController = require("./controllers/standard/homeController");
