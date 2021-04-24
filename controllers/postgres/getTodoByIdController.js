@@ -13,7 +13,7 @@ const getTodoByIdController = router.get("/:id", async (req, res, next) => {
       },
     });
     // Throw a HTTP 404 if the todo isn't found
-    if (!getTodoById) {
+    if (!getTodoById || !getTodoById.id) {
       return res.status(404).send({ message: `Todo not found with id ${id}` });
     }
     return res.json(getTodoById);
