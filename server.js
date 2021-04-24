@@ -53,6 +53,8 @@ app.use(catchAllController);
 sequelize
   .sync({ force: eraseDatabaseOnSync })
   .then(async () => {
+    // If the environment is set to "development" then reseed the database on server restart
+    // Else, skip this
     if (eraseDatabaseOnSync) {
       seedDatabaseAsync();
     }

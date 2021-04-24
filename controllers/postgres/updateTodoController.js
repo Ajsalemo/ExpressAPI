@@ -23,7 +23,6 @@ const updateTodoController = router.put("/", async (req, res, next) => {
     if (!getTodoById || !getTodoById.id) {
       return res.status(404).send({ message: `Todo not found with id ${id}` });
     }
-
     // Update the Todo with the provided values in req.body
     const updateTodoById = await Todo.update(
       {
@@ -34,11 +33,18 @@ const updateTodoController = router.put("/", async (req, res, next) => {
         where: {
           id: parseInt(getTodoById.id),
         },
+        // Postgres dialect specific options
+        // https://stackoverflow.com/questions/38524938/sequelize-update-record-and-return-result
+        returning: true,
+        plain: true,
       }
     );
-    // Send back the 200 if successfully
-    // TODO - need to add returned rows in the response
-    return res.status(200).json(updateTodoById);
+    // The result returns an array with 2 elements for Postgres
+    // The first is the number of affected rows, the second is the actual row(s)
+    // Deconstruct the array to pick just the affected row and return that back in the response
+    const [_, updatedObj] = await updateTodoById;
+    // Send back a 200 if successful along with the affected row 
+    return res.status(200).json(updatedObj);
   } catch (error) {
     console.log("An error occurred during query execution: ", error);
     next(error);
