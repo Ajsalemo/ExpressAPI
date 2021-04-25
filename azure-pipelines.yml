@@ -41,8 +41,8 @@ stages:
 - stage: Deploy
   displayName: Deploy
   jobs:
-  - job: Build
-    displayName: Build
+  - job: Deploy
+    displayName: Deploy
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -66,7 +66,7 @@ stages:
         DockerRepository: $(imageRepository)
         DockerImageTag: $(tag)
         AppSettings: |
-          -GITHUB_API_URL 'https://api.github.com'
+          -GITHUB_API_URL "https://api.github.com"
           -POSTGRES_DATABASE_NAME $(POSTGRES_DATABASE_NAME_ENV)
           -POSTGRES_USERNAME $(POSTGRES_USERNAME_ENV)
           -POSTGRES_PASSWORD $(POSTGRES_PASSWORD_ENV)
