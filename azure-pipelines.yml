@@ -15,12 +15,6 @@ variables:
   containerRegistry: 'ansalemocontainerregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-  # Secret variables
-  POSTGRES_DATABASE_NAME_ENV: $(POSTGRES_DATABASE_NAME)
-  POSTGRES_USERNAME_ENV: $(POSTGRES_USERNAME)
-  POSTGRES_PASSWORD_ENV: $(POSTGRES_PASSWORD)
-  POSTGRES_HOST_ENV: $(POSTGRES_HOST)
-  POSTGRES_PORT_ENV: $(POSTGRES_PORT)
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -52,6 +46,15 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - bash: |
+        echo "Mapping secret stored environment variables.."
+      env:
+        # Secret variables
+        POSTGRES_DATABASE_NAME_ENV: $(POSTGRES_DATABASE_NAME)
+        POSTGRES_USERNAME_ENV: $(POSTGRES_USERNAME)
+        POSTGRES_PASSWORD_ENV: $(POSTGRES_PASSWORD)
+        POSTGRES_HOST_ENV: $(POSTGRES_HOST)
+        POSTGRES_PORT_ENV: $(POSTGRES_PORT)
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
