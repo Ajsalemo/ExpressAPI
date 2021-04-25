@@ -46,16 +46,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - bash: |
-        echo "Mapping secret stored environment variables.."
-        echo "POSTGRES_DATABASE_NAME_ENV: $(POSTGRES_DATABASE_NAME)"
-      env:
-        # Secret variables
-        POSTGRES_DATABASE_NAME_ENV: $(POSTGRES_DATABASE_NAME)
-        POSTGRES_USERNAME_ENV: $(POSTGRES_USERNAME)
-        POSTGRES_PASSWORD_ENV: $(POSTGRES_PASSWORD)
-        POSTGRES_HOST_ENV: $(POSTGRES_HOST)
-        POSTGRES_PORT_ENV: $(POSTGRES_PORT)
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
@@ -66,11 +56,6 @@ stages:
         DockerRepository: $(imageRepository)
         DockerImageTag: $(tag)
         AppSettings: |
-          -GITHUB_API_URL "https://api.github.com"
-          -POSTGRES_DATABASE_NAME $(POSTGRES_DATABASE_NAME_ENV)
-          -POSTGRES_USERNAME $(POSTGRES_USERNAME_ENV)
-          -POSTGRES_PASSWORD $(POSTGRES_PASSWORD_ENV)
-          -POSTGRES_HOST $(POSTGRES_HOST_ENV)
-          -POSTGRES_PORT $(POSTGRES_PORT_ENV)
-          -NODE_ENV 'development'
+          -GITHUB_API_URL https://api.github.com
+          -NODE_ENV production
           -WEBSITES_PORT '3000'
