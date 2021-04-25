@@ -49,7 +49,7 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: $(AZURE_SUBSCRIPTION)
+        azureSubscription: 'Ansalemo(4388fa06-bf66-4497-82c2-991ba75ecb97)'
         appType: 'webAppContainer'
         WebAppName: 'ansalemo-express-api-linux'
         DockerNamespace: $(containerRegistry)
