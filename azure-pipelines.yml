@@ -52,9 +52,9 @@ stages:
         azureSubscription: $(AZURE_SUBSCRIPTION)
         appType: 'webAppContainer'
         WebAppName: 'ansalemo-express-api-linux'
-        DockerNamespace: '$(containerRegistry)'
-        DockerRepository: '$(imageRepository)'
-        DockerImageTag: '$(tag)'
+        DockerNamespace: $(containerRegistry)
+        DockerRepository: $(imageRepository)
+        DockerImageTag: $(tag)
         AppSettings: |
           -GITHUB_API_URL https://api.github.com
           -POSTGRES_DATABASE_NAME $(POSTGRES_DATABASE_NAME)
