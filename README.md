@@ -14,4 +14,4 @@ This project uses two approaches for making requests
 - the `controllers/axios` folder which contains API calls using Axios to test out `agentkeepalive` and connection reuse/keepalives
 - the `controllers/postgres` folder which contains calls to Postgres with the help of Sequelize to also test out the use of connection pooling.
 
-Ideally, this project is a combination of techniques created primarily for testing while using Express as a backbone.
+Ideally, this project is a combination of techniques created primarily for testing while using Express as a backbone. This can either be ran containerized or with Pm2 separately.
