@@ -1,0 +1,66 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '602397e4-ec25-46ba-a88c-a3e5914b0c49'
+  imageRepository: 'ajsalemoexpressapi'
+  containerRegistry: 'ansalemocontainerregistry.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: $(AZURE_SUBSCRIPTION)
+        appType: 'webAppContainer'
+        WebAppName: 'ansalemo-express-api-linux'
+        DockerNamespace: '$(containerRegistry)'
+        DockerRepository: '$(imageRepository)'
+        DockerImageTag: '$(tag)'
+        AppSettings: |
+          -GITHUB_API_URL https://api.github.com
+          -POSTGRES_DATABASE_NAME $(POSTGRES_DATABASE_NAME)
+          -POSTGRES_USERNAME $(POSTGRES_USERNAME)
+          -POSTGRES_PASSWORD $(POSTGRES_PASSWORD)
+          -POSTGRES_HOST $(POSTGRES_HOST)
+          -POSTGRES_PORT $(POSTGRES_PORT)
+          -NODE_ENV development
+          -WEBSITES_PORT 3000
