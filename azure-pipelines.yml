@@ -55,7 +55,4 @@ stages:
         DockerNamespace: $(containerRegistry)
         DockerRepository: $(imageRepository)
         DockerImageTag: $(tag)
-        AppSettings: |
-          -GITHUB_API_URL https://api.github.com
-          -NODE_ENV production
-          -WEBSITES_PORT '3000'
+        AppSettings: '-GITHUB_API_URL https://api.github.com -NODE_ENV production -WEBSITES_PORT 3000'
