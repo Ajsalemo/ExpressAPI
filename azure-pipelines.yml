@@ -46,15 +46,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - bash: |
-        echo "Setting environment variable secrets.."
-      env:
-        POSTGRES_DATABASE_NAME_ENV: $(POSTGRES_DATABASE_NAME)
-        POSTGRES_USERNAME_ENV: $(POSTGRES_USERNAME)
-        POSTGRES_PASSWORD_ENV: $(POSTGRES_PASSWORD)
-        POSTGRES_HOST_ENV: $(POSTGRES_HOST)
-        POSTGRES_PORT_ENV: $(POSTGRES_PORT)
-
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
