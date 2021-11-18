@@ -7,7 +7,7 @@ RUN yarn install && \
 
 COPY . /app
 COPY sshd_config /etc/ssh/
-ENV BUILD "this is during Docker build"
+
 # SSH enablement
 # ----------------------------------------------------------------- #
 # Use this to add SSH 
