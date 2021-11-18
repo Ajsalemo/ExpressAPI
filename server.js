@@ -11,7 +11,8 @@ const { sequelize } = require("./models/index");
 // Seeding function
 const seedDatabaseAsync = require("./config/seeders.js");
 // Seeding boolean
-const eraseDatabaseOnSync = process.env.NODE_ENV === "development" ? true : false;
+const eraseDatabaseOnSync =
+  process.env.NODE_ENV === "development" ? true : false;
 
 // Controllers
 const homeController = require("./controllers/standard/homeController");
@@ -32,9 +33,9 @@ app.use(
     extended: true,
   })
 );
+
 // Logging
 app.use(morgan("dev"));
-
 // Controllers to use with routing
 // Standard controllers
 app.use(homeController);
@@ -46,6 +47,7 @@ app.use("/api/todo/find/", getTodoByIdController);
 app.use("/api/todo/delete/", deleteTodoController);
 app.use("/api/todo/add", addTodoController);
 app.use("/api/todo/update", updateTodoController);
+
 // Catches all non matching routes and redirects it back to the root - must be placed last in the chain of middleware
 app.use(catchAllController);
 
@@ -62,6 +64,7 @@ sequelize
       console.log("Successfully connected to Postgres");
       app.listen(port, () => {
         console.log(`INFO: Server is listening on port ${port}`);
+        console.log(`APP NAME: ${process.env.APP_NAME}`);
         console.log(
           `INFO: There is ${
             os.cpus().length
